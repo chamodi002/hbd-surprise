@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HBD | Chamodi</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,900;1,400&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #faf7f2;
+            --text-dark: #1a1a1a;
+            --accent-gold: #c5a059;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-dark);
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
+            margin: 0;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+
+        /* --- Elegant Reveal Animation --- */
+        .reveal { opacity: 0; transform: translateY(20px); transition: all 1s cubic-bezier(0.215, 0.61, 0.355, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* --- Premium Envelope --- */
+        .envelope-wrapper {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #ffffff;
+            cursor: pointer;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 2000;
+            transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1);
+        }
+
+        .envelope {
+            width: 280px;
+            height: 190px;
+            background: white;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+            border: 1px solid #f0f0f0;
+        }
+
+        .envelope::after {
+            content: "C";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 45px;
+            height: 45px;
+            background: var(--accent-gold);
+            border-radius: 50%;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Playfair Display';
+            font-weight: bold;
+            z-index: 10;
+        }
+
+        .main-content {
+            display: none;
+            padding-bottom: 60px;
+        }
+
+        /* --- Mobile Hero --- */
+        .hero-header {
+            height: 85vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .hero-img-wrapper {
+            width: 75%;
+            max-width: 280px;
+            aspect-ratio: 3/4;
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .hero-img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            box-shadow: 15px 15px 0px var(--accent-gold);
+        }
+
+        .floating-text {
+            position: absolute;
+            font-size: 4.5rem;
+            color: rgba(0,0,0,0.03);
+            z-index: -1;
+            font-weight: 900;
+            top: 40%;
+        }
+
+        /* --- Definition Styling (Optimized) --- */
+        .definition-container {
+            padding: 60px 25px;
+            text-align: center;
+        }
+
+        .lead-definition {
+            line-height: 1.8;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            margin-top: 20px;
+        }
+
+        .lead-definition::first-letter {
+            font-size: 3rem;
+            color: var(--accent-gold);
+            float: left;
+            margin-right: 10px;
+            line-height: 1;
+        }
+
+        /* --- Marquee --- */
+        .marquee-section {
+            background: #fff;
+            padding: 15px 0;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+            overflow: hidden;
+        }
+
+        .marquee-content {
+            display: inline-block;
+            white-space: nowrap;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 4px;
+            animation: marquee 20s linear infinite;
+        }
+
+        @keyframes marquee {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
+        }
+
+        /* --- Mobile Gallery (Asymmetric Stack) --- */
+        .editorial-gallery {
+            padding: 20px;
+        }
+
+        .gallery-item {
+            width: 100%;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            display: block;
+            border-radius: 2px;
+        }
+
+        .gallery-item:nth-child(even) {
+            padding-left: 20%;
+        }
+
+        .gallery-item:nth-child(odd) {
+            padding-right: 20%;
+        }
+
+        .badge-pill {
+            display: inline-block;
+            border: 1px solid var(--accent-gold);
+            color: var(--accent-gold);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            margin: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        @media (min-width: 768px) {
+            .hero-img-wrapper { width: 320px; }
+            .floating-text { font-size: 8rem; }
+            .gallery-item { width: 50%; display: inline-block; vertical-align: top; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="envelope-wrapper" id="wrapper" onclick="openMagazine()">
+        <div class="envelope"></div>
+        <div style="position:absolute; bottom: 15%; text-transform: uppercase; letter-spacing: 3px; font-size: 0.7rem; color: #999;">
+            Tap to Open
+        </div>
+    </div>
+
+    <div class="main-content" id="mainContent">
+        
+        <div class="hero-header">
+            <div class="floating-text">CHAMODI</div>
+            <div class="hero-img-wrapper reveal">
+                <img src="img/WhatsApp Image 2026-04-03 at 7.23.37 PM (1).jpeg" alt="Chamodi">
+            </div>
+            <h1 class="display-5 reveal">Happy Birthday</h1>
+            <p class="reveal italic text-muted" style="font-family: 'Playfair Display';">"Timeless Elegance"</p>
+        </div>
+
+        <div class="definition-container reveal">
+            <span class="text-muted small" style="letter-spacing: 3px;">VOL XXII // ED. 2026</span>
+            <h2 class="display-6 mt-2" style="color: var(--accent-gold);">Cha·mo·di</h2>
+            <p class="fst-italic text-muted small">noun /ʃæˈmoʊdi/</p>
+            
+            <p class="lead-definition">
+                A rare confluence of grace and ambition. Characterized by an editorial eye and a spirit that illuminates every space it occupies. A timeless study in modern sophistication.
+            </p>
+
+            <div class="mt-4">
+                <span class="badge-pill">Radiance</span>
+                <span class="badge-pill">Grace</span>
+                <span class="badge-pill">Strength</span>
+            </div>
+        </div>
+
+        <div class="marquee-section my-4">
+            <div class="marquee-content">
+                CELEBRATING 22 • TIMELESS STYLE • RADIATING GRACE • CHAPTER TWENTY-TWO • CELEBRATING 22 • TIMELESS STYLE • RADIATING GRACE • CHAPTER TWENTY-TWO •
+            </div>
+        </div>
+
+        <div class="editorial-gallery">
+            <div class="gallery-item reveal">
+                <img src="img/WhatsApp Image 2026-04-03 at 7.23.36 PM.jpeg" alt="Photo 1">
+            </div>
+            <div class="gallery-item reveal">
+                <img src="img/WhatsApp Image 2026-04-03 at 7.23.37 PM (2).jpeg" alt="Photo 2">
+            </div>
+            <div class="gallery-item reveal">
+                <img src="img/WhatsApp Image 2026-04-03 at 7.23.37 PM (1).jpeg" alt="Photo 3">
+            </div>
+        </div>
+
+        <div class="text-center mt-5 reveal">
+            <h2 class="h4 mb-4">Endless Love</h2>
+            <button class="btn btn-dark px-4 py-2 rounded-0 small" style="letter-spacing: 2px; font-size: 0.8rem;" onclick="location.reload()">
+                REPLAY
+            </button>
+        </div>
+    </div>
+
+    <script>
+        function openMagazine() {
+            const wrapper = document.getElementById('wrapper');
+            wrapper.style.transform = 'translateY(-100%)';
+            
+            setTimeout(() => {
+                document.getElementById('mainContent').style.display = 'block';
+                handleReveal();
+            }, 500);
+        }
+
+        function handleReveal() {
+            const reveals = document.querySelectorAll('.reveal');
+            reveals.forEach(el => {
+                const elementTop = el.getBoundingClientRect().top;
+                if (elementTop < window.innerHeight - 30) {
+                    el.classList.add('active');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', handleReveal);
+    </script>
+</body>
+</html>
